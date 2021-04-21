@@ -392,16 +392,18 @@ class FLog {
     assert(text != null);
     assert(type != null);
 
+    var memberName = Trace.current().frames[2].member.split(".");
+
     //check to see if className is not provided
     //then its already been taken from calling class
     if (className == null) {
-      className = Trace.current().frames[2].member.split(".")[0];
+      className = memberName.isNotEmpty ? memberName.first : null;
     }
 
     //check to see if methodName is not provided
     //then its already been taken from calling class
     if (methodName == null) {
-      methodName = Trace.current().frames[2].member.split(".")[1];
+      methodName = memberName.length > 1 ? memberName[1] : memberName.first;
     }
 
     //check to see if user provides a valid configuration and logs are enabled
